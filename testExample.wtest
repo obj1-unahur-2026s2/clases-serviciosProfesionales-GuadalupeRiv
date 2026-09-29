@@ -1,9 +1,41 @@
-import example.pepita
+import example.*
 
-describe "group of tests for pepita" {
+describe "test etapa1"{
+ const univSanMartin = new Universidad(provincia ="BsAs" , honorarioRecomendado=3500)
+ const univRosario = new Universidad(provincia ="SantaFe" , honorarioRecomendado=2800)
+ const univCorrientes = new Universidad(provincia="Corrientes",honorarioRecomendado=4200)
+ const univHurlingham = new Universidad(provincia="BsAs", honorarioRecomendado=8800)
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
-  }
+ const juana = new ProfesionalVinculada(universidad=univRosario) 
+ const melina = new AsociadoDelLitoral(universidad = univCorrientes)
+ const rocio = new ProfesionalLibre(universidad=univHurlingham,honorarioPorHora=5000,provinciaDondePuedeTrabajar=["SantaFe","Cordoba","BsAs"])
+ const luciana = new ProfesionalLibre(universidad=univRosario, honorarioPorHora=3200,provinciaDondePuedeTrabajar=["santaFe","EntreRios","Corrientes","Misiones"])
+
+ const nova = new EmpresaDeServicios(profesionalesContratados=[juana,melina,rocio,luciana],honorarioReferencia=3500)
+
+
+test "Nova tiene dos de sus profesionales que estudiaron en Rosario"{
+  assert.equals(2,nova.profesionalesDe(univRosario))
+}
+
+test " Nova Tiene a Rocio en la lista  como profesiona mas caro"{
+  assert.equals([rocio],nova.profesionalesCaros())
+}
+
+test "las Universidades de Hurlingham,Rosario y Corrientes son las formadoras de los profesionales de Nova"{
+  assert.equals(#{univHurlingham,univRosario,univCorrientes},nova.universidadesFormadoras())
+}
+
+test "el profesional mas barato de Nova es Juana"{
+  assert.equals(juana,nova.profesionalMasBarato())
+}
+
+test "Nova es una empresa de gente acotada"{
+  assert.that(nova.esDeGenteAcotada())
+}
+
+test "Nova ya no es una empresa de gente acotada porque Luciana ahora puede trabajar en Corrientes y Misiones"{
+  assert.notThat(nova.esDeGenteAcotada())
+}
 
 }
